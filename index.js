@@ -22,10 +22,15 @@ async function run() {
             const query = {};
             const cursor = serviceCollection.find(query);
             const services = await cursor.toArray();
-            res.send(services)
+            res.send(services);
         });
 
-        
+        app.get('/service/:id', async(req, res) =>{
+            const id = req.params.id;
+            const query = {_id : ObjectID(id)};
+            const service = await serviceCollection.findOne(query);
+            res.send(service);
+        });
     }
     finally {
 
