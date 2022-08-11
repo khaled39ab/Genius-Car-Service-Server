@@ -26,42 +26,43 @@ async function run() {
             res.send(services);
         });
 
-        app.get('/service/:id', async(req, res) =>{
+        app.get('/service/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id : ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const service = await serviceCollection.findOne(query);
             res.send(service);
         });
 
         // post
-        app.post('/service', async(req, res) =>{
+        app.post('/service', async (req, res) => {
             const newService = req.body;
             const result = await serviceCollection.insertOne(newService);
             res.send(result);
         });
 
         // delete
-        app.delete('/service/:id', async(req, res) =>{
+        app.delete('/service/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const result = await serviceCollection.deleteOne(query)
             res.send(result)
         });
 
         // post order api
-        app.post('/order', async(req, res) =>{
+        app.post('/order', async (req, res) => {
             const newOrder = req.body;
             const result = await orderCollection.insertOne(newOrder)
             res.send(result)
         });
 
         // get order api
-        app.get('/order', async(req, res) =>{
-            const query = {};
+        app.get('/order', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
             const cursor = orderCollection.find(query);
             const order = await cursor.toArray()
             res.send(order)
-        })
+        });
     }
     finally {
 
