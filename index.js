@@ -20,7 +20,7 @@ function verifyJWT(req, res, next) {
     const token = authHeader.split(' ')[1];
     jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded) => {
         if (err) {
-            return res.status(403).send({ message: 'forbidden' })
+            return res.status(403).send({ message: 'forbidden access' })
         }
         req.decoded = decoded;
         next();
@@ -78,8 +78,8 @@ async function run() {
         // post order api
         app.post('/order', async (req, res) => {
             const newOrder = req.body;
-            const result = await orderCollection.insertOne(newOrder)
-            res.send(result)
+            const result = await orderCollection.insertOne(newOrder);
+            res.send(result);
         });
 
         // get order api
